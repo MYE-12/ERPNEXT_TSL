@@ -18,12 +18,27 @@ frappe.ui.form.CustomerQuickEntryForm = frappe.ui.form.QuickEntryForm.extend({
 			collapsible: 1
 		},
 		{
+			label: __("First Name"),
+			fieldname: "first_name",
+			fieldtype: "Data"
+		},
+		{
 			label: __("Email Id"),
 			fieldname: "email_id",
 			fieldtype: "Data"
 		},
 		{
+			label: __("Designation"),
+			fieldname: "designation",
+			fieldtype: "Data"
+		},
+		{
 			fieldtype: "Column Break"
+		},
+		{
+			label: __("Last Name"),
+			fieldname: "last_name",
+			fieldtype: "Data"
 		},
 		{
 			label: __("Mobile Number"),
@@ -31,9 +46,19 @@ frappe.ui.form.CustomerQuickEntryForm = frappe.ui.form.QuickEntryForm.extend({
 			fieldtype: "Data"
 		},
 		{
+			label: __("Location"),
+			fieldname: "location",
+			fieldtype: "Data"
+		},
+		{
 			fieldtype: "Section Break",
 			label: __("Primary Address Details"),
 			collapsible: 1
+		},
+		{
+			label: __("Address Title"),
+			fieldname: "address_title",
+			fieldtype: "Data"
 		},
 		{
 			label: __("Address Line 1"),
@@ -51,11 +76,26 @@ frappe.ui.form.CustomerQuickEntryForm = frappe.ui.form.QuickEntryForm.extend({
 			fieldtype: "Data"
 		},
 		{
+			label: __("Additional Number"),
+			fieldname: "additional_no",
+			fieldtype: "Data"
+		},
+		{
 			fieldtype: "Column Break"
+		},
+		{
+			label: __("Email"),
+			fieldname: "email_id",
+			fieldtype: "Data"
 		},
 		{
 			label: __("City"),
 			fieldname: "city",
+			fieldtype: "Data"
+		},
+		{
+			label: __("District Name"),
+			fieldname: "district_name",
 			fieldtype: "Data"
 		},
 		{

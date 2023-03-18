@@ -195,14 +195,15 @@
    "read_only": 1
   },
   {
+   "default": "Nos",
    "fieldname": "stock_uom",
    "fieldtype": "Link",
+   "hidden": 1,
    "ignore_user_permissions": 1,
    "label": "Default Unit of Measure",
    "oldfieldname": "stock_uom",
    "oldfieldtype": "Link",
-   "options": "UOM",
-   "reqd": 1
+   "options": "UOM"
   },
   {
    "fieldname": "column_break0",
@@ -950,7 +951,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "max_attachments": 1,
- "modified": "2021-09-10 12:23:07.277077",
+ "modified": "2022-03-07 09:40:35.901780",
  "modified_by": "Administrator",
  "module": "Stock",
  "name": "Item",

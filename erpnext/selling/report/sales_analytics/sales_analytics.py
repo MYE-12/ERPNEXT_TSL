@@ -343,7 +343,7 @@ class Analytics(object):
 		self.group_entries = frappe.db.sql("""select name, lft, rgt , {parent} as parent
 			from `tab{tree}` order by lft"""
 		.format(tree=self.filters.tree_type, parent=parent), as_dict=1)
-
+		print(self.group_entries)
 		for d in self.group_entries:
 			if d.parent:
 				self.depth_map.setdefault(d.name, self.depth_map.get(d.parent) + 1)

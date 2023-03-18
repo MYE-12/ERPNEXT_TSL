@@ -595,12 +595,19 @@ def make_contact(args, is_primary_contact=1):
 			'link_name': args.get('name')
 		}]
 	})
+	if args.get('first_name'):
+		contact.first_name = args.get('first_name')
+	if args.get('last_name'):
+		contact.last_name = args.get('last_name')
 	if args.get('email_id'):
 		contact.add_email(args.get('email_id'), is_primary=True)
 	if args.get('mobile_no'):
 		contact.add_phone(args.get('mobile_no'), is_primary_mobile_no=True)
+	if args.get('designation'):
+		contact.designation = args.get('designation')
+	if args.get('location'):
+		contact.location = args.get('location')
 	contact.insert()
-
 	return contact
 
 def make_address(args, is_primary_address=1):
@@ -616,11 +623,13 @@ def make_address(args, is_primary_address=1):
 
 	address = frappe.get_doc({
 		'doctype': 'Address',
-		'address_title': args.get('name'),
+		'address_title': args.get('address_title'),
 		'address_line1': args.get('address_line1'),
 		'address_line2': args.get('address_line2'),
 		'city': args.get('city'),
-		'state': args.get('state'),
+		'district_name':args.get('district_name'),
+		'additional_no':args.get('additional_no'),
+		'email_id':args.get('email_id'),		'state': args.get('state'),
 		'pincode': args.get('pincode'),
 		'country': args.get('country'),
 		'links': [{

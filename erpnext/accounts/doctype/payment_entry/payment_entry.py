@@ -1523,6 +1523,7 @@ def get_payment_entry(dt, dn, party_amount=None, bank_account=None, bank_amount=
 	pe.paid_amount = paid_amount
 	pe.received_amount = received_amount
 	pe.letter_head = doc.get("letter_head")
+	pe.work_order_data = doc.work_order_data
 
 	if pe.party_type in ["Customer", "Supplier"]:
 		bank_account = get_party_bank_account(pe.party_type, pe.party)

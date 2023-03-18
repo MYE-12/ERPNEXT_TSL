@@ -698,31 +698,32 @@ def get_price_list_rate(args, item_doc, out=None):
 
 def insert_item_price(args):
 	"""Insert Item Price if Price List and Price List Rate are specified and currency is the same"""
-	if frappe.db.get_value("Price List", args.price_list, "currency", cache=True) == args.currency \
-		and cint(frappe.db.get_single_value("Stock Settings", "auto_insert_price_list_rate_if_missing")):
-		if frappe.has_permission("Item Price", "write"):
-			price_list_rate = (args.rate / args.get('conversion_factor')
-				if args.get("conversion_factor") else args.rate)
+	if not frappe.db.get_value("Item",args.item_code,"is_constant"):
+		if frappe.db.get_value("Price List", args.price_list, "currency", cache=True) == args.currency \
+			and cint(frappe.db.get_single_value("Stock Settings", "auto_insert_price_list_rate_if_missing")):
+			if frappe.has_permission("Item Price", "write"):
+				price_list_rate = (args.rate / args.get('conversion_factor')
+					if args.get("conversion_factor") else args.rate)
 
-			item_price = frappe.db.get_value('Item Price',
-				{'item_code': args.item_code, 'price_list': args.price_list, 'currency': args.currency},
-				['name', 'price_list_rate'], as_dict=1)
-			if item_price and item_price.name:
-				if item_price.price_list_rate != price_list_rate and frappe.db.get_single_value('Stock Settings', 'update_existing_price_list_rate'):
-					frappe.db.set_value('Item Price', item_price.name, "price_list_rate", price_list_rate)
-					frappe.msgprint(_("Item Price updated for {0} in Price List {1}").format(args.item_code,
+				item_price = frappe.db.get_value('Item Price',
+					{'item_code': args.item_code, 'price_list': args.price_list, 'currency': args.currency},
+					['name', 'price_list_rate'], as_dict=1)
+				if item_price and item_price.name:
+					if item_price.price_list_rate != price_list_rate and frappe.db.get_single_value('Stock Settings', 'update_existing_price_list_rate'):
+						frappe.db.set_value('Item Price', item_price.name, "price_list_rate", price_list_rate)
+						frappe.msgprint(_("Item Price updated for {0} in Price List {1}").format(args.item_code,
+							args.price_list), alert=True)
+				else:
+					item_price = frappe.get_doc({
+						"doctype": "Item Price",
+						"price_list": args.price_list,
+						"item_code": args.item_code,
+						"currency": args.currency,
+						"price_list_rate": price_list_rate
+					})
+					item_price.insert()
+					frappe.msgprint(_("Item Price added for {0} in Price List {1}").format(args.item_code,
 						args.price_list), alert=True)
-			else:
-				item_price = frappe.get_doc({
-					"doctype": "Item Price",
-					"price_list": args.price_list,
-					"item_code": args.item_code,
-					"currency": args.currency,
-					"price_list_rate": price_list_rate
-				})
-				item_price.insert()
-				frappe.msgprint(_("Item Price added for {0} in Price List {1}").format(args.item_code,
-					args.price_list), alert=True)
 
 def get_item_price(args, item_code, ignore_party=False):
 	"""
@@ -1063,7 +1064,8 @@ def apply_price_list(args, as_doc=False):
 		}
 	"""
 	args = process_args(args)
-
+	if args.doctype in ["Sales Invoice","Delivery Note","Quotation"]:
+		return
 	parent = get_price_list_currency_and_exchange_rate(args)
 	args.update(parent)
 
